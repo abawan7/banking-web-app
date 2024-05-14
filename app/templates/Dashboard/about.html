@@ -1,0 +1,338 @@
+{% extends 'dashboard/index.html' %}
+
+{% load static %}
+
+{% block extra_head %}
+{% endblock extra_head %}
+
+{% block title %}About Us{% endblock title %}
+
+{% block hero %} 
+<h2><span>About Us</span></h2>
+<p>KingMorgan, the world’s best bank, is a publicly listed company with a paid-up capital of Rs. 17.91 billion. It is one of the fastest-growing financial institutions in the global banking sector.</p>
+
+{% endblock hero %}
+
+{% block content %}
+
+<!-- ======= About Us Section ======= -->
+
+<section id="about" class="about">
+    <div class="container" data-aos="fade-up">
+  
+      <div class="section-header">
+        <h2>About Us</h2>
+        <p>We strive for excellence and aim to provide the best services to our clients who trust us with their needs, ensuring quality and commitment in everything we do.</p>
+      </div>
+  
+      <div class="row gy-4">
+        <div class="col-lg-6">
+          <h3>Commitment to Quality and Excellence</h3>
+          <img src="{% static 'img/about.jpg' %}" class="img-fluid rounded-4 mb-4" alt="about">
+          <p>Our dedication to providing outstanding service is unparalleled. We ensure that every client receives personal and professional attention.</p>
+          <p>We believe in building relationships with our clients that are based on trust, integrity, and mutual respect.</p>
+        </div>
+        <div class="col-lg-6">
+          <div class="content ps-0 ps-lg-5">
+            <p class="fst-italic">
+              With years of industry experience, we offer expert advice and support, tailored to the unique needs of each client.
+            </p>
+            <ul>
+              <li><i class="bi bi-check-circle-fill"></i> We provide comprehensive solutions tailored to your business requirements.</li>
+              <li><i class="bi bi-check-circle-fill"></i> Our approach is proactive and innovative, ensuring the best possible outcomes.</li>
+              <li><i class="bi bi-check-circle-fill"></i> We uphold the highest standards of service for all our engagements.</li>
+            </ul>
+            <p>
+              We are committed to the principles of professional excellence, integrity, and ethical conduct, while embracing the latest innovations to offer the best service.
+            </p>
+  
+            <div class="position-relative mt-4">
+              <img src="{% static 'img/about-2.jpg' %}" class="img-fluid rounded-4" alt="about-2">
+              <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" class="glightbox play-btn"></a>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  </section><!-- End About Us Section -->
+  
+<!-- ======= Clients Section ======= -->
+
+<div class="section-header">
+    <h2>Clients</h2> 
+</div> 
+
+<section id="clients" class="clients">
+    <div class="container" data-aos="zoom-out">
+
+      <div class="clients-slider swiper">
+        <div class="swiper-wrapper align-items-center">
+          <div class="swiper-slide"><img src="{% static 'img/clients/client-1.png' %}" class="img-fluid" alt=""></div>
+          <div class="swiper-slide"><img src="{% static 'img/clients/client-2.png' %}" class="img-fluid" alt=""></div>
+          <div class="swiper-slide"><img src="{% static 'img/clients/client-3.png' %}" class="img-fluid" alt=""></div>
+          <div class="swiper-slide"><img src="{% static 'img/clients/client-4.png' %}" class="img-fluid" alt=""></div>
+          <div class="swiper-slide"><img src="{% static 'img/clients/client-5.png' %}" class="img-fluid" alt=""></div>
+          <div class="swiper-slide"><img src="{% static 'img/clients/client-6.png' %}" class="img-fluid" alt=""></div>
+          <div class="swiper-slide"><img src="{% static 'img/clients/client-7.png' %}" class="img-fluid" alt=""></div>
+          <div class="swiper-slide"><img src="{% static 'img/clients/client-8.png' %}" class="img-fluid" alt=""></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <!-- End Clients Section -->
+
+  <!-- ======= Call To Action Section ======= -->
+  <section id="call-to-action" class="call-to-action">
+    <div class="container text-center" data-aos="zoom-out">
+      <a href="https://www.youtube.com/watch?v=LXb3EKWsInQ" class="glightbox play-btn"></a>
+      <h3>Click To Play</h3>
+      <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+      <a class="cta-btn" href="#">Call To Action</a>
+    </div>
+  </section><!-- End Call To Action Section -->
+
+
+<!-- ======= Stats Counter Section ======= -->
+<section id="stats-counter" class="stats-counter">
+    <div class="container" data-aos="fade-up">
+
+      <div class="row gy-4 align-items-center">
+
+        <div class="col-lg-6">
+          <img src="{% static 'img/stats-img.svg' %}" alt="" class="img-fluid">
+        </div>
+
+        <div class="col-lg-6">
+
+          <div class="stats-item d-flex align-items-center">
+            <span data-purecounter-start="0" data-purecounter-end="232" data-purecounter-duration="1" class="purecounter"></span>
+            <p><strong>Happy Clients</strong> consequuntur quae diredo para mesta</p>
+          </div><!-- End Stats Item -->
+
+          <div class="stats-item d-flex align-items-center">
+            <span data-purecounter-start="0" data-purecounter-end="521" data-purecounter-duration="1" class="purecounter"></span>
+            <p><strong>Projects</strong> adipisci atque cum quia aut</p>
+          </div><!-- End Stats Item -->
+
+          <div class="stats-item d-flex align-items-center">
+            <span data-purecounter-start="0" data-purecounter-end="453" data-purecounter-duration="1" class="purecounter"></span>
+            <p><strong>Hours Of Support</strong> aut commodi quaerat</p>
+          </div><!-- End Stats Item -->
+
+        </div>
+
+      </div>
+
+    </div>
+  </section><!-- End Stats Counter Section -->
+
+
+   <!-- ======= Testimonials Section ======= -->
+   <section id="testimonials" class="testimonials">
+    <div class="container" data-aos="fade-up">
+
+      <div class="section-header">
+        <h2>Testimonials</h2>
+        <p>Voluptatem quibusdam ut ullam perferendis repellat non ut consequuntur est eveniet deleniti fignissimos eos quam</p>
+      </div>
+
+      <div class="slides-3 swiper" data-aos="fade-up" data-aos-delay="100">
+        <div class="swiper-wrapper">
+
+          <div class="swiper-slide">
+            <div class="testimonial-wrap">
+              <div class="testimonial-item">
+                <div class="d-flex align-items-center">
+                  <img src="{% static 'img/testimonials/testimonials-1.jpg' %}" class="testimonial-img flex-shrink-0" alt="">
+                  <div>
+                    <h3>Saul Goodman</h3>
+                    <h4>Board of Directors &amp; Founder</h4>
+                    <div class="stars">
+                      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </div>
+                  </div>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i>
+                  Mr. Saul Goodman joined the Board of Directors of Kings Morgan Ltd., as Director in 2021. He is a member of the IFRS 9 Implementation Oversight Committee of the Board.Mr. Goodman holds a Bachelor’s Degree in Business Administration from Gulf University for Science and Technology.
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div>
+          </div><!-- End testimonial item -->
+          <div class="swiper-slide">
+            <div class="testimonial-wrap">
+              <div class="testimonial-item">
+                <div class="d-flex align-items-center">
+                  <img src="{% static 'img/testimonials/testimonials-2.jpg' %}" class="testimonial-img flex-shrink-0" alt="">
+                  <div>
+                    <h3>Sara Wilsson</h3>
+                    <h4>Director</h4>
+                    <div class="stars">
+                      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </div>
+                  </div>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i>
+                  Ms. Sara Wilsson has been a Director of Kings Morgan since November 2015. She is also a member of the Risk Committee of the Board.Ms. Sara Wilsson has a strong academic background in accounting and a focused experience in investments honed over the past 14 years.
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div>
+          </div><!-- End testimonial item -->
+
+          <div class="swiper-slide">
+            <div class="testimonial-wrap">
+              <div class="testimonial-item">
+                <div class="d-flex align-items-center">
+                  <img src="{% static 'img/testimonials/testimonials-3.jpg' %}" class="testimonial-img flex-shrink-0" alt="">
+                  <div>
+                    <h3>Jena Karlis</h3>
+                    <h4>Chairman</h4>
+                    <div class="stars">
+                      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </div>
+                  </div>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i>
+                  Ms. Jena Karlis has been a Director of Kings Morgan since October 2012. In addition to being the Chairman of the Board, she is also Chairman of the Human Resources, Remuneration & Compensation Committee, and IFRS 9 Implementation Oversight Committee of the Board.
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div>
+          </div><!-- End testimonial item -->
+
+          <div class="swiper-slide">
+            <div class="testimonial-wrap">
+              <div class="testimonial-item">
+                <div class="d-flex align-items-center">
+                  <img src="{% static 'img/testimonials/testimonials-4.jpg' %}" class="testimonial-img flex-shrink-0" alt="">
+                  <div>
+                    <h3>Matt Brandon</h3>
+                    <h4>Vice Chairman</h4>
+                    <div class="stars">
+                      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </div>
+                  </div>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i>
+                  Mr. Matt Brandon has been a Director of Kings Morgan since March 2015. He is Vice Chairman of the Board and Chairman of the Risk Management Committee, as well as a member of the Audit Committee and Information Technology Committee of the Board.
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div>
+          </div><!-- End testimonial item -->
+
+          <div class="swiper-slide">
+            <div class="testimonial-wrap">
+              <div class="testimonial-item">
+                <div class="d-flex align-items-center">
+                  <img src="{% static 'img/testimonials/testimonials-5.jpg' %}" class="testimonial-img flex-shrink-0" alt="">
+                  <div>
+                    <h3>John Larson</h3>
+                    <h4>Board of Directors</h4>
+                    <div class="stars">
+                      <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
+                    </div>
+                  </div>
+                </div>
+                <p>
+                  <i class="bi bi-quote quote-icon-left"></i>
+                  Mr. John Larson joined the Board of Directors of Kings Morgan in August 2023. He is also a member of the Audit Committee, Risk Management Committee, and IT Committee of the Board.Mr. John Larson is a graduate of the Institute of Business Administration (IBA), Karachi.
+                  <i class="bi bi-quote quote-icon-right"></i>
+                </p>
+              </div>
+            </div>
+          </div><!-- End testimonial item -->
+
+        </div>
+        <div class="swiper-pagination"></div>
+      </div>
+
+    </div>
+  </section><!-- End Testimonials Section -->
+
+  <!-- ======= Contact Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+          <h2>Contact</h2>
+        </div>
+
+        <div class="row gx-lg-0 gy-4">
+
+          <div class="col-lg-4">
+
+            <div class="info-container d-flex flex-column align-items-center justify-content-center">
+              <div class="info-item d-flex">
+                <i class="bi bi-geo-alt flex-shrink-0"></i>
+                <div>
+                  <h4>Location:</h4>
+                  <p>A108 Adam Street, New York, NY 535022</p>
+                </div>
+              </div><!-- End Info Item -->
+
+              <div class="info-item d-flex">
+                <i class="bi bi-envelope flex-shrink-0"></i>
+                <div>
+                  <h4>Email:</h4>
+                  <p>mlkabawan336@gmail.com</p>
+                </div>
+              </div><!-- End Info Item -->
+
+              <div class="info-item d-flex">
+                <i class="bi bi-phone flex-shrink-0"></i>
+                <div>
+                  <h4>Call:</h4>
+                  <p>+1 5589 55488 55</p>
+                </div>
+              </div><!-- End Info Item -->
+
+              <div class="info-item d-flex">
+                <i class="bi bi-clock flex-shrink-0"></i>
+                <div>
+                  <h4>Open Hours:</h4>
+                  <p>Mon-Fri: 11AM - 18PM</p>
+                </div>
+              </div><!-- End Info Item -->
+            </div>
+
+          </div>
+
+          <div class="col-lg-8">
+            <form action="forms/contact.php" method="post" role="form" class="php-email-form">
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
+                </div>
+                <div class="col-md-6 form-group mt-3 mt-md-0">
+                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
+                </div>
+              </div>
+              <div class="form-group mt-3">
+                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+              </div>
+              <div class="form-group mt-3">
+                <textarea class="form-control" name="message" rows="7" placeholder="Message" required></textarea>
+              </div>
+              <div class="my-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div>
+              <div class="text-center"><button type="submit">Send Message</button></div>
+            </form>
+          </div><!-- End Contact Form -->
+
+        </div>
+
+      </div>
+</section><!-- End Contact Section -->
+
+  {% endblock content %}

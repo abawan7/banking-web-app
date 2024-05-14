@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login and Registration Page</title>
+    <link href="{% static 'css/Login.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/bootstrap-icons/bootstrap-icons.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/aos/aos.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/glightbox/css/glightbox.min.css' %}" rel="stylesheet">
+    <link href="{% static 'vendor/swiper/swiper-bundle.min.css' %}" rel="stylesheet"> 
+</head>
+<body>
+{% if messages %}
+    {% for message in messages %}
+        <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endif %}
+
+    <div id="container" class="container">
+        <!-- FORM SECTION -->
+        <div class="row">
+            <!-- New Password Form -->
+            <div class="col align-items-center flex-col sign-up">
+                <div class="form-wrapper align-items-center">
+                    <div class="form sign-up">
+                        <form id="updatePasswordForm" method="post" action="{% url 'update_password' %}">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="password" name="new_password" placeholder="New Password">
+                            </div>
+                            <div class="input-group">
+                                <input type="password" name="confirm_password" placeholder="Confirm Password">
+                            </div>
+                            <button type="button" onclick="updatePassword()" class="btn px-5 btn-success">Update Password</button>
+                        </form>
+                        <p>
+                            Remembered your password?
+                            <b onclick="toggle('sign-in')" class="pointer">
+                                Sign in here
+                            </b>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- END New Password Form -->
+
+            <!-- Account Recovery Form -->
+            <div class="col align-items-center flex-col sign-in">
+                <div class="form-wrapper align-items-center">
+                    <div class="form sign-in" style="display: none;">
+                        <form id="recoveryForm" method="post" action="{% url 'verify_credentials' %}">
+                            {% csrf_token %}
+                            <div class="input-group">
+                                <input type="text" name="username" placeholder="Username">
+                            </div>
+                            <div class="input-group">
+                                <input type="text" name="cnic" placeholder="CNIC">
+                            </div>
+                            <div class="input-group">
+                                <input type="text" name="account_no" placeholder="Account No">
+                            </div>
+                            <button type="button" onclick="verifyCredentials()" class="btn btn-success px-5">Verify</button>
+                        </form>
+                        <p>
+                            Don't have an account?
+                            <b onclick="toggle('sign-up')" class="pointer">
+                                Sign up here
+                            </b>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <!-- END Account Recovery Form -->
+        </div>
+        <!-- END FORM SECTION -->
+
+    <script src="{% static 'js/Login.js' %}"></script>
+    <script src="{% static 'js/popper.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/aos/aos.js' %}"></script>
+    <script src="{% static 'vendor/glightbox/js/glightbox.min.js' %}"></script>
+    <script src="{% static 'vendor/swiper/swiper-bundle.min.js' %}"></script>
+    <script src="{% static 'vendor/purecounter/purecounter_vanilla.js' %}"></script>
+    <script src="{% static 'vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script>
+        function verifyCredentials() {
+            const form = document.getElementById('recoveryForm');
+            const data = new FormData(form);
+
+            console.log('Sending verification request...');
+
+            fetch(form.action, {
+                method: 'POST',
+                body: data,
+                credentials: 'include',
+                headers: {
+                    'X-CSRFToken': data.get('csrfmiddlewaretoken')
+                }
+            }).then(response => response.json())
+            .then(data => {
+                console.log('Verification response:', data);  
+                if (data.success) {
+                    console.log('Verification successful, toggling form...');
+                    toggle('sign-up');  
+                } else {
+                    console.log('Verification failed:', data.error);
+                    displayError(data.error);
+                }
+            })
+            .catch(error => {
+                console.error('Verification error:', error);
+                displayError('Network error occurred.');
+            });
+        }
+
+        // Function to update password via AJAX
+        function updatePassword() {
+            const form = document.getElementById('updatePasswordForm');
+            const data = new FormData(form);
+        
+            fetch(form.action, {  
+                method: 'POST',
+                body: data,
+                credentials: 'include',  
+                headers: {
+                    'X-CSRFToken': data.get('csrfmiddlewaretoken')  
+                }
+            }).then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                      alert(data.message); 
+                      toggle('sign-in');  
+                  } else {
+                      displayError(data.error);
+                  }
+              })
+              .catch(error => displayError('Network error occurred.'));
+        }
+        
+        function toggle(formId) {
+            const forms = document.querySelectorAll('.form-wrapper');
+            forms.forEach(form => {
+                form.style.display = 'none'; 
+            });
+
+            const targetForm = document.querySelector('.' + formId);
+            if (targetForm) {
+                targetForm.style.display = 'flex'; 
+            } else {
+                console.error('No form found with the class:', formId);
+            }
+        }
+
+
+        
+        // Function to display error messages
+        function displayError(message) {
+            const errorContainer = document.getElementById('errorContainer');
+            if (!errorContainer) {
+                const container = document.createElement('div');
+                container.id = 'errorContainer';
+                container.className = 'alert alert-danger';
+                container.innerText = message;
+                document.querySelector('#container').prepend(container);
+            } else {
+                errorContainer.innerText = message;
+            }
+        }
+        </script>
+        
+</body>
+</html>

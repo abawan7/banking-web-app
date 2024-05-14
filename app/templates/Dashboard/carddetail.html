@@ -1,0 +1,88 @@
+{% extends 'dashboard/index.html' %}
+
+{% load static %}
+
+{% block extra_head %}
+  <link href="{% static 'css/card.css' %}" rel="stylesheet">
+{% endblock extra_head %}
+
+{% block title %}Card Details{% endblock title %}
+
+{% block hero %}<h2><span>Card Detail</span></h2>{% endblock hero %}
+
+{% block content %}
+<div class="section-header">
+    <h2>Cards</h2>
+  </div>
+  
+  <div class="card-container d-flex justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="100">
+    <div class="row gy-4 justify-content-center align-items-center" data-aos="fade-up" data-aos-delay="100">
+      <div class="col-lg-4 col-md-6">
+        <div class="upper">
+          <div class="card" style="background-color: #008374;">
+            <div class="details">
+              <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex flex-column card-details">
+                  <span class="plus">{{ user.name }}</span>
+                  <span class="plus">{{ card.card_type }}</span>
+                  <h6 class="amount">$ {{ account.balance }}</h6>
+                </div>
+              </div>
+              <img src="{% static 'img/wifisig.png' %}" width="40" class="coral">
+            </div>
+            <div class="d-flex justify-content-between mt-3 align-items-center card-number">
+              <img src="{% static 'img/sim.png' %}" width="60">
+              <div class="d-flex flex-column number">
+                <span>{{ card.card_number }}</span>
+                <div class="d-flex align-items-center card-number">
+                  <span class="expiry-date">{{ card.expiry_date }}</span>
+                  <label class="switch">
+                    <input type="checkbox" id="toggleButton" onclick="toggleStatus()" checked>
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  </br></br>
+
+  <section id="services" class="services sections-bg">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+            <h2>Our Services</h2>
+        </div>
+
+        <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+            {% for service in services %}
+                <div class="col-lg-4 col-md-6">
+                    {% if service.url %}
+                        <a href="{% url service.url %}">
+                    {% endif %}
+                        <div class="service-item position-relative">
+                            <div class="icon">
+                                <i class="bi {{ service.icon }}"></i>
+                            </div>
+                            <h3>{{ service.name }}</h3>
+                            {% if service.description %}
+                                <p>{{ service.description }}</p>
+                            {% endif %}
+                        </div>
+                    {% if service.url %}
+                        </a>
+                    {% endif %}
+                </div><!-- End Service Item -->
+            {% endfor %}
+            
+        </div>
+
+    </div>
+</section>
+    
+{% endblock content %}

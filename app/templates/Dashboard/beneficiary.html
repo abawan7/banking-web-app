@@ -1,0 +1,192 @@
+{% extends 'Dashboard/index.html' %}
+{% load static %}
+
+{% block extra_head %}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+{% endblock extra_head %}
+
+{% block title %}Beneficiary{% endblock title %}
+
+
+{% block hero %}<h2><span>Beneficiary</span></h2>{% endblock hero %}
+
+
+{% block content %}
+<div class="section-header">
+  <h2>Beneficiary</h2>
+</div>
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
+{% endif %}
+
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h5 style="font-weight: bold; font-family: 'Arial', sans-serif; color: #008374; margin-top: 1%;">
+                Current Balance: {{ account.balance }} USD
+            </h5>
+        </div>
+        <div class="col-6">
+            <a href="#" class="btn btn-primary" style="background-color:#009786; margin-left: 75%; margin-bottom: 2%;" data-bs-toggle="modal" data-bs-target="#addBeneficiaryModal">
+                Add Beneficiary
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-borderless table-hover" style="border-collapse: collapse; border: 3px solid #008374; margin-bottom: 0;">
+                <thead style="border-bottom: 2px solid #008374; background-color: #f8f9fa;">
+                    <tr>
+                        <th style="padding: 10px 20px; width: 30%; border-bottom: 1px solid #008374;">Name</th>
+                        <th style="padding: 10px 20px; border-bottom: 1px solid #008374;">Account No</th>
+                        <th style="padding: 10px 20px; border-bottom: 1px solid #008374;">Bank Name</th>
+                        <th style="padding: 10px 20px; border-bottom: 1px solid #008374; text-align: center;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody style="border: 2px solid #008374; background-color: #f8f9fa;">
+                    {% for beneficiary in beneficiaries %}
+                    <tr style="border-bottom: 1px solid #008374;">
+                        <td style="padding: 10px 20px;">{{ beneficiary.name }}</td>
+                        <td style="padding: 10px 20px;">{{ beneficiary.account_number }}</td>
+                        <td style="padding: 10px 20px;">{{ beneficiary.bank.name }}</td>
+                        <td style="padding: 10px 20px; text-align: center;">
+                            <a href="{% url 'fundtransfer' %}?name={{ beneficiary.name }}&account={{ beneficiary.account_number }}&bank={{ beneficiary.bank.id }}&balance={{account.balance}}" class="btn btn-primary" style="background-color:#009786;">
+                                Send Money
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+
+
+<div class="modal fade" id="addBeneficiaryModal" tabindex="-1" aria-labelledby="addBeneficiaryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addBeneficiaryModalLabel">Add Beneficiary</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="modalMessage" style="display: none; padding: 10px; margin-bottom: 10px;"></div>
+                <form id="addBeneficiaryForm" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="bankSelect" class="form-label">Select Bank</label>
+                        <select class="form-select" id="bankSelect" name="bank" required>
+                            <option value="">Choose...</option>
+                            {% for bank in banks %}
+                                <option value="{{ bank.id }}">{{ bank.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="accountNumber" class="form-label">Account Number</label>
+                        <input type="text" class="form-control" id="accountNumber" name="account_number" required>
+                        <label for="beneficiaryName" class="form-label">Beneficiary Name</label>
+                        <input type="text" class="form-control" id="beneficiaryName" name="beneficiary_name" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="background-color: #009786;">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<section id="services" class="services sections-bg">
+  <div class="container" data-aos="fade-up">
+    <div class="section-header">
+      <h2>Our Services</h2>
+    </div>
+    <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+      {% for service in services %}
+        <div class="col-lg-4 col-md-6">
+          {% if service.url %}
+            <a href="{% url service.url %}">
+          {% endif %}
+          <div class="service-item position-relative">
+            <div class="icon">
+              <i class="bi {{ service.icon }}"></i>
+            </div>
+            <h3>{{ service.name }}</h3>
+            {% if service.description %}
+              <p>{{ service.description }}</p>
+            {% endif %}
+          </div>
+          {% if service.url %}
+            </a>
+          {% endif %}
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock content %}
+
+{% block extra_js %}
+
+<script>
+function submitForm(event) {
+    event.preventDefault();
+
+    var formData = new FormData(document.getElementById('addBeneficiaryForm'));
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/beneficiary/addbeneficiary/', true);
+    xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+    var messageDiv = document.getElementById('modalMessage');
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            messageDiv.style.display = 'block';
+            if (xhr.status === 200) {
+                messageDiv.style.backgroundColor = '#d4edda'; 
+                messageDiv.style.color = '#155724'; 
+                messageDiv.innerText = 'Beneficiary added successfully!';
+                
+                document.getElementById('addBeneficiaryForm').reset();
+                setTimeout(() => {
+                    location.reload();
+                }, 1500); 
+            } else {
+                messageDiv.style.backgroundColor = '#f8d7da'; 
+                messageDiv.style.color = '#721c24'; 
+                messageDiv.innerText = 'An error occurred while adding the beneficiary: ' + xhr.responseText;
+            }
+        }
+    };
+    xhr.send(formData);
+}
+document.getElementById('addBeneficiaryForm').addEventListener('submit', submitForm);
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+</script>
+{% endblock extra_js %}

@@ -1,0 +1,160 @@
+{% extends 'Dashboard/index.html' %}
+{% load static %}
+
+{% block extra_head %}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+{% endblock extra_head %}
+
+{% block title %}Pay Bill{% endblock title %}
+
+{% block hero %}<h2><span>Pay Bill</span></h2>{% endblock hero %}
+
+{% block content %}
+<div class="section-header">
+  <h2>Pay Now</h2>
+</div>
+{% if messages %}
+  {% for message in messages %}
+    <div class="alert {% if message.tags == 'success' %}alert-success{% else %}alert-danger{% endif %} alert-dismissible fade show" role="alert">
+      {{ message }}
+      <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+  {% endfor %}
+{% endif %}
+
+<div class="container">
+    <form method="post" id="transferForm" class="text-center"> 
+        {% csrf_token %}
+        <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+            <div class="col-md-4 mx-auto"> 
+                <div class="form-group">
+                    <label class="form-label"><strong>Enter Amount</strong></label>
+                </div>
+                <small class="form-text text-muted" id="currentBalanceText">
+                    <strong>Current Balance: </strong><span id="currentBalance">{{ curr_balance }}</span> USD
+                </small>
+                <input type="text" id="amount" name="amount" class="form-control" required oninput="updateRemainingBalance()">
+                <small class="form-text text-muted" id="remainingBalanceText" style="display: none;">
+                    <strong>Remaining Balance: </strong><span id="remainingBalance"></span> USD
+                </small>
+            </div>           
+            <div class="col-12">
+                <button class="btn btn-primary" style="background-color:#009786;margin-bottom: 2%;" type="submit">Send Balance</button>
+            </div>
+        </div>
+    </form>
+</div>
+  
+
+<!-- Success Modal -->
+<div class="modal fade" id="successModal" tabindex="-1" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="successModalLabel">Success!</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body text-center">
+          <i class="fas fa-check-circle" style="font-size: 3em; color: #008374;"></i>
+          <p class="mt-2">Bill Payed</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="redirectToBeneficiary()" style="background-color: #008374;">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+
+<section id="services" class="services sections-bg">
+  <div class="container" data-aos="fade-up">
+    <div class="section-header">
+      <h2>Our Services</h2>
+    </div>
+    <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+      {% for service in services %}
+        <div class="col-lg-4 col-md-6">
+          {% if service.url %}
+            <a href="{% url service.url %}">
+          {% endif %}
+          <div class="service-item position-relative">
+            <div class="icon">
+              <i class="bi {{ service.icon }}"></i>
+            </div>
+            <h3>{{ service.name }}</h3>
+            {% if service.description %}
+              <p>{{ service.description }}</p>
+            {% endif %}
+          </div>
+          {% if service.url %}
+            </a>
+          {% endif %}
+        </div><!-- End Service Item -->
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endblock content %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const form = document.getElementById('transferForm'); 
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      const formData = new FormData(form);
+      fetch(form.action, {
+        method: 'POST',
+        body: formData,
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw response;
+        }
+        return response.json();
+      })
+      .then(data => {
+        if (data.status === 'success') {
+          new bootstrap.Modal(document.getElementById('successModal')).show();
+          clearFormData(); 
+        } else {
+          alert(data.message); 
+        }
+      })
+      .catch(error => {
+        error.json().then(err => {
+          alert(err.message); 
+        });
+      });
+    });
+
+    function clearFormData() {
+      document.getElementById('company').value = '';
+      document.getElementById('account_number').value = '';
+      document.getElementById('amount').value = '';
+    }
+  });
+
+  function redirectToBeneficiary() {
+    window.location.href = '/billpayment/';
+  }
+
+  function updateRemainingBalance() {
+    var currentBalance = parseFloat(document.getElementById("currentBalance").textContent);
+    var amountInput = document.getElementById("amount");
+    var enteredAmount = parseFloat(amountInput.value);
+    if (!isNaN(enteredAmount) && enteredAmount >= 0) {
+      var remainingBalance = currentBalance - enteredAmount;
+      var remainingBalanceText = document.getElementById("remainingBalanceText");
+      var remainingBalanceSpan = document.getElementById("remainingBalance");
+
+      remainingBalanceSpan.textContent = remainingBalance.toFixed(2);
+      remainingBalanceText.style.display = "block";
+    } else {
+      document.getElementById("remainingBalanceText").style.display = "none";
+    }
+  }
+</script>
+{% endblock extra_js %}

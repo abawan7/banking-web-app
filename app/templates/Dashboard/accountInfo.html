@@ -1,0 +1,87 @@
+{% extends 'dashboard/index.html' %}
+{% load static %} <!-- Load the static files tag library -->
+{% block title %}AccountInfo{% endblock title %}
+{% block hero %}
+<h2>Account Info</h2>
+{% endblock hero %}
+{% block content %}
+<section id="services" class="services sections-bg">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+            <h2>Account Info</h2>
+        </div>
+        <div class="container">
+            <div class="row mb-3" style="background-color: #E0E0E0;">
+                <div class="col-6 fw-bold">Name</div>
+                <div class="col-6">{{ User.name }}</div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-6 fw-bold">Email</div>
+                <div class="col-6">{{ User.email }}</div>
+              </div>
+              <div class="row mb-3" style="background-color: #E0E0E0;">
+                <div class="col-6 fw-bold">Phone Number</div>
+                <div class="col-6">{{ User.phone }}</div>
+              </div>
+            <div class="row mb-3" >
+              <div class="col-6 fw-bold">Account Number</div>
+              <div class="col-6">{{ Account.account_number }}</div>
+            </div>
+            <div class="row mb-3" style="background-color: #E0E0E0;">
+              <div class="col-6 fw-bold">Balance</div>
+              <div class="col-6">{{ Account.balance }}</div>
+            </div>
+            <div class="row mb-3" >
+              <div class="col-6 fw-bold">Account Type</div>
+              <div class="col-6">{{ Account.account_type }}</div>
+            </div>
+            <!-- Add other account fields as needed -->
+            <div class="row mb-3" style="background-color: #E0E0E0;">
+              <div class="col-6 fw-bold">Card Number</div>
+              <div class="col-6">{{ ATMcards.card_number }}</div>
+            </div>
+            <div class="row mb-3" >
+              <div class="col-6 fw-bold">Expiry Date</div>
+              <div class="col-6">{{ ATMcards.expiry_date }}</div>
+            </div>
+            <div class="row mb-3" style="background-color: #E0E0E0;">
+              <div class="col-6 fw-bold">Card Type</div>
+              <div class="col-6">{{ ATMcards.card_type }}</div>
+            </div>
+            <!-- Add other card fields as needed -->
+          </div>
+    </div>
+</section>
+<section id="services" class="services sections-bg">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+            <h2>Our Services</h2>
+        </div>
+
+        <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+            {% for service in services %}
+                <div class="col-lg-4 col-md-6">
+                    {% if service.url %}
+                        <a href="{% url service.url %}">
+                   
+                        <div class="service-item position-relative">
+                            <div class="icon">
+                                <i class="bi {{ service.icon }}"></i>
+                            </div>
+                            <h3>{{ service.name }}</h3>
+                            {% if service.description %}
+                                <p>{{ service.description }}</p>
+                            {% endif %}
+                        </div>
+                        </a>
+                    {% endif %}
+                </div><!-- End Service Item -->
+            {% endfor %}
+            
+        </div>
+
+    </div>
+</section>
+{% endblock content %}

@@ -1,0 +1,104 @@
+{% extends 'dashboard/index.html' %}
+{% load static %} 
+{% block title %}Account Statement{% endblock title %}
+{% block hero %}
+<h2>Account Statement</h2>
+{% endblock hero %}
+{%block content%}
+<section id="transaction-info" class="sections-bg">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+            <h2>Account Statement</h2>
+        </div>
+        
+        {% for transaction in transactions %}
+        {% if transaction.transaction_type == 'debit' or transaction.transaction_type == 'Top up' or transaction.transaction_type == 'Bill Payment' %}
+        <div class="card mb-3" style="border: 3px solid #611209;">
+            <div class="card-body">
+                <p class="card-title" style="color: black;">Transaction ID: {{ transaction.id }}</p>
+                <table class="table table-borderless table-hover" style="border-collapse: collapse;">
+                    <tbody style="border: 2px solid #611209; background-color: #f8f9fa;">
+                        <tr>
+                            <th style="width: 30%; border-bottom: 1px solid #008374;">Amount</th>
+                            <td style="border-bottom: 1px solid #008374;">{{ transaction.amount }}</td>
+                        </tr>
+                        <tr>
+                            <th style="border-bottom: 1px solid #008374;">Type</th>
+                            <td style="border-bottom: 1px solid #008374;">{{ transaction.transaction_type }}</td>
+                        </tr>
+                        <tr>
+                            <th style="border-bottom: 1px solid #008374;">Description</th>
+                            <td style="border-bottom: 1px solid #008374;">{{ transaction.description }}</td>
+                        </tr>
+                        <tr>
+                            <th style="border-bottom: 1px solid #008374;">Time</th>
+                            <td>{{ transaction.timestamp }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        {% elif transaction.transaction_type == 'credit' %}
+            <div class="card mb-3" style="border: 3px solid #008374;">
+                <div class="card-body">
+                    <p class="card-title" style="color: black;">Transaction ID: {{ transaction.id }}</p>
+                    <table class="table table-borderless table-hover" style="border-collapse: collapse;">
+                        <tbody style="border: 2px solid #008374; background-color: #f8f9fa;">
+                            <tr>
+                                <th style="width: 30%; border-bottom: 1px solid #008374;">Amount</th>
+                                <td style="border-bottom: 1px solid #008374;">{{ transaction.amount }}</td>
+                            </tr>
+                            <tr>
+                                <th style="border-bottom: 1px solid #008374;">Type</th>
+                                <td style="border-bottom: 1px solid #008374;">{{ transaction.transaction_type }}</td>
+                            </tr>
+                            <tr>
+                                <th style="border-bottom: 1px solid #008374;">Description</th>
+                                <td style="border-bottom: 1px solid #008374;">{{ transaction.description }}</td>
+                            </tr>
+                            <tr>
+                                <th style="border-bottom: 1px solid #008374;">Time</th>
+                                <td>{{ transaction.timestamp }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        {% endif %}
+        {% endfor %}
+            
+    </div>
+</section>
+<section id="services" class="services sections-bg">
+    <div class="container" data-aos="fade-up">
+
+        <div class="section-header">
+            <h2>Our Services</h2>
+        </div>
+
+        <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+            {% for service in services %}
+                <div class="col-lg-4 col-md-6">
+                    {% if service.url %}
+                        <a href="{% url service.url %}">
+                
+                        <div class="service-item position-relative">
+                            <div class="icon">
+                                <i class="bi {{ service.icon }}"></i>
+                            </div>
+                            <h3>{{ service.name }}</h3>
+                            {% if service.description %}
+                                <p>{{ service.description }}</p>
+                            {% endif %}
+                        </div>
+                        </a>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+        </div>
+
+    </div>
+</section>
+{% endblock content %}

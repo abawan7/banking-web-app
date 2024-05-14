@@ -1,0 +1,176 @@
+{% extends 'Dashboard/index.html' %}
+{% load static %}
+
+{% block extra_head %}
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
+{% endblock extra_head %}
+
+{% block title %}Mobile Top Up{% endblock title %}
+
+
+{% block hero %}<h2><span>Mobile Top Up</span></h2>{% endblock hero %}
+
+{% block content %}
+<div class="section-header">
+  <h2>Mobile Top Up</h2>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h5 style="font-weight: bold; font-family: 'Arial', sans-serif; color: #008374; margin-top: 1%;">
+                Current Balance: {{ account.balance }} USD
+            </h5>
+        </div>
+        <div class="col-6">
+            <a href="#" class="btn btn-primary" style="background-color:#009786; margin-left: 78%; margin-bottom: 2%;" data-bs-toggle="modal" data-bs-target="#addMobileTopUpModal">
+                Add Top Up
+            </a>
+        </div>        
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-borderless table-hover" style="border-collapse: collapse; border: 3px solid #008374; margin-bottom: 0;">
+                <thead style="border-bottom: 2px solid #008374; background-color: #f8f9fa;">
+                    <tr>
+                        <th style="padding: 10px 20px; width: 30%; border-bottom: 1px solid #008374;">Name</th>
+                        <th style="padding: 10px 20px; border-bottom: 1px solid #008374;">Mobile Number</th>
+                        <th style="padding: 10px 20px; border-bottom: 1px solid #008374;">Network</th>
+                        <th style="padding: 10px 20px; border-bottom: 1px solid #008374; text-align: center;">Actions</th>
+                    </tr>
+                </thead>
+                <tbody style="border: 2px solid #008374; background-color: #f8f9fa;">
+                    {% for top_up in top_ups %}
+                        <tr style="border-bottom: 1px solid #008374;">
+                            <td style="padding: 10px 20px;">{{ top_up.mobile_number.name }}</td>
+                            <td style="padding: 10px 20px;">{{ top_up.mobile_number.mobile_number }}</td>
+                            <td style="padding: 10px 20px;">{{ top_up.mobile_number.network.name }}</td>
+                            <td style="padding: 10px 20px; text-align: center;">
+                                <a href="{% url 'send_top_up' %}?name={{ top_up.mobile_number.name }}&mobile_no={{ top_up.mobile_number.mobile_number }}&balance={{ account.balance }}" class="btn btn-primary" style="background-color:#009786;">
+                                    Send Balance
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="addMobileTopUpModal" tabindex="-1" aria-labelledby="addMobileTopUpModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addMobileTopUpModalLabel">Add Mobile Top Up</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div id="modalMessage" style="display: none; padding: 10px; margin-bottom: 10px;"></div>
+                <form id="addMobileTopUpForm" method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="networkSelect" class="form-label">Select Network</label>
+                        <select class="form-select" id="networkSelect" name="network" required>
+                            <option value="">Choose...</option>
+                            {% for network in networks %}
+                                <option value="{{ network.id }}">{{ network.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="mobileNumber" class="form-label">Mobile Number</label>
+                        <input type="text" class="form-control" id="mobileNumber" name="mobile_number" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="background-color: #009786;">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section id="services" class="services sections-bg">
+    <div class="container" data-aos="fade-up">
+      <div class="section-header">
+        <h2>Our Services</h2>
+      </div>
+      <div class="row gy-4" data-aos="fade-up" data-aos-delay="100">
+        {% for service in services %}
+          <div class="col-lg-4 col-md-6">
+            {% if service.url %}
+              <a href="{% url service.url %}">
+            {% endif %}
+            <div class="service-item position-relative">
+              <div class="icon">
+                <i class="bi {{ service.icon }}"></i>
+              </div>
+              <h3>{{ service.name }}</h3>
+              {% if service.description %}
+                <p>{{ service.description }}</p>
+              {% endif %}
+            </div>
+            {% if service.url %}
+              </a>
+            {% endif %}
+          </div><!-- End Service Item -->
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endblock content %}
+
+{% block extra_js %}
+<script>
+    function submitMobileTopUpForm(event) {
+    event.preventDefault();
+
+    var formData = new FormData(document.getElementById('addMobileTopUpForm'));
+
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '/mobileTopUp/addMobileTopUp/', true);
+    xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+    var messageDiv = document.getElementById('modalMessage');
+
+    xhr.onreadystatechange = function () {
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            messageDiv.style.display = 'block';
+            if (xhr.status === 200) {
+                messageDiv.style.backgroundColor = '#d4edda'; 
+                messageDiv.style.color = '#155724'; 
+                messageDiv.innerText = 'Mobile Top Up added successfully!';
+                
+                document.getElementById('addMobileTopUpForm').reset();
+                setTimeout(() => {
+                    location.reload();
+                }, 1500); 
+            } else {
+                messageDiv.style.backgroundColor = '#f8d7da'; 
+                messageDiv.style.color = '#721c24'; 
+                messageDiv.innerText = 'An error occurred while adding the Mobile Top Up: ' + xhr.responseText;
+            }
+        }
+    };
+    xhr.send(formData);
+}
+
+document.getElementById('addMobileTopUpForm').addEventListener('submit', submitMobileTopUpForm);
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+</script>
+{% endblock extra_js %}
