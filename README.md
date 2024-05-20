@@ -37,8 +37,8 @@ Follow these steps to get your development environment set up:
 Start by cloning the repository to your local machine:
 
 ```sh
-git clone https://github.com/zaidiali9/SE-Project.git
-cd SE-Project
+git clone https://github.com/abawan7/banking-web-app.git
+cd banking-web-app
 ```
 
 ### 2. Create and activate a virtual environment
