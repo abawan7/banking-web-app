@@ -5,7 +5,7 @@
   The application serves as an interactive interface between the bank and its customers, enabling them to perform a variety of banking tasks from the comfort of their home or office without needing to visit a branch. This application aims to enhance the banking experience by providing a user-friendly, secure, and efficient online service platform.
 
 # Demo
-![Demo](https://github.com/abawan7/banking-web-app/blob/main/Demo.gif)
+![Demo](https://github.com/abawan7/mobile-based-campus-navigation/blob/main/Demo.gif)
 
   ## Table of Contents
 
